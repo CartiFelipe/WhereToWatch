@@ -1,9 +1,10 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { Home, MovieDetail } from "../../views";
+import { Movie } from "../../views/home";
 
 export type StackParamList = {
-  home: undefined;
-  movie: undefined;
+  Home: undefined;
+  MovieDetail: { movie: Movie; handlePress: (movie: Movie) => void };
 };
 
 const index = () => {
@@ -12,13 +13,17 @@ const index = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="home"
+        name="Home"
         component={Home}
         options={{
           headerShown: false,
         }}
       />
-      <Stack.Screen name="movie" component={MovieDetail} />
+      <Stack.Screen
+        name="MovieDetail"
+        component={MovieDetail}
+        options={{ headerTitle: "Detalhes do filme" }}
+      />
     </Stack.Navigator>
   );
 };

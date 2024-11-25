@@ -14,24 +14,24 @@ export type Movie = {
   genre_ids: number[];
 };
 
-type Props = StackScreenProps<StackParamList, "home">;
+type Props = StackScreenProps<StackParamList, "Home">;
 
 type MoviesRecord = {
   moviesOfTheWeek: Movie[];
   myMovies: Movie[];
 };
 
-const Index: FC<Props> = ({ navigation, route }) => {
+const Index = ({ navigation, route }: Props) => {
   const [movies, setMovies] = useState<MoviesRecord>({
     moviesOfTheWeek: [],
     myMovies: [],
   });
+  const apiKey = "4a8070c06285bbe866759a69e44acdd7";
 
   async function getData() {
     const page = 1;
     const trending = await fetch(
-      "https://api.themoviedb.org/3/trending/movie/day?api_key=4a8070c06285bbe866759a69e44acdd7&page=" +
-        page
+      `https://api.themoviedb.org/3/trending/movie/day?api_key=${apiKey}&page=${page}`
     ).then((response) => {
       return response.json();
     });
@@ -41,21 +41,23 @@ const Index: FC<Props> = ({ navigation, route }) => {
     setMovies({ ...movies, moviesOfTheWeek: trendingAux });
   }
 
-  const apiKey = "4a8070c06285bbe866759a69e44acdd7";
-
-  const getMovie = async (name: string) => {
-    await fetch(
-      `https://api.themoviedb.org/3/search/movie?include_adult=false&language=en-US&page=1&api_key=${apiKey}&query=${name}`
-    ).then((response) => response.json().then((data) => console.log(data.results)));
-  };
+  // const getMovie = async (name: string) => {
+  //   await fetch(
+  //     `https://api.themoviedb.org/3/search/movie?include_adult=false&language=en-US&page=1&api_key=${apiKey}&query=${name}`
+  //   ).then((response) => response.json().then((data) => console.log(data.results)));
+  // };
 
   useEffect(() => {
     getData();
-    getMovie("halloween");
   }, []);
 
-  const handleCardClick = () => {
-    navigation.navigate("movie");
+  const handlePress = (movie: Movie) => {
+    navigation.goBack();
+    setMovies({ ...movies, myMovies: [...movies.myMovies, movie] });
+  };
+
+  const handleCardClick = (movie: Movie) => {
+    navigation.navigate("MovieDetail", { movie, handlePress });
   };
 
   return (

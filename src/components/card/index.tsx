@@ -1,9 +1,12 @@
 import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
-type Props = { src: string; onClick: () => void };
-const index = ({ src, onClick }: Props) => {
-  const imgSrc = `https://image.tmdb.org/t/p/original/${src}`;
+import { Movie } from "../../views/home";
+
+type Props = { movie: Movie; onClick: (movie: Movie) => void };
+
+const index = ({ movie, onClick }: Props) => {
+  const imgSrc = `https://image.tmdb.org/t/p/original/${movie.poster_path}`;
   return (
-    <TouchableOpacity onPress={() => onClick()}>
+    <TouchableOpacity onPress={() => onClick(movie)}>
       <View style={style.container}>
         <Image src={imgSrc} style={style.img} />
       </View>
@@ -18,7 +21,7 @@ const style = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
 
-    borderBlockColor: "white",
+    borderColor: "white",
     borderWidth: 3,
 
     width: 150,

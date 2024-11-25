@@ -5,7 +5,7 @@ type Props = {
   data: Array<Movie>;
   label?: string;
 
-  handleCardClick: () => void;
+  handleCardClick: (movie: Movie) => void;
 };
 
 const index = ({ data, label, handleCardClick }: Props) => {
@@ -19,7 +19,7 @@ const index = ({ data, label, handleCardClick }: Props) => {
           data={data}
           showsHorizontalScrollIndicator={false}
           renderItem={(item) => (
-            <Card src={item.item.poster_path} onClick={handleCardClick} />
+            <Card movie={item.item} onClick={() => handleCardClick(item.item)} />
           )}
         />
       ) : (
