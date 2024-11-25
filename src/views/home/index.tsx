@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { SafeAreaView, StyleSheet } from "react-native";
 import { List } from "../../components/";
+import { StackScreenProps } from "@react-navigation/stack";
+import { StackParamList } from "../../routes/stackroutes";
 
 export type Movie = {
   id: number;
@@ -12,12 +14,14 @@ export type Movie = {
   genre_ids: number[];
 };
 
+type Props = StackScreenProps<StackParamList, "home">;
+
 type MoviesRecord = {
   moviesOfTheWeek: Movie[];
   myMovies: Movie[];
 };
 
-export default function Index() {
+const Index: FC<Props> = ({ navigation, route }) => {
   const [movies, setMovies] = useState<MoviesRecord>({
     moviesOfTheWeek: [],
     myMovies: [],
@@ -50,14 +54,26 @@ export default function Index() {
     getMovie("halloween");
   }, []);
 
+  const handleCardClick = () => {
+    navigation.navigate("movie");
+  };
+
   return (
     <SafeAreaView style={styles.container}>
-      <List data={movies.moviesOfTheWeek} label="Filmes da semana" />
+      <List
+        data={movies.moviesOfTheWeek}
+        label="Filmes da semana"
+        handleCardClick={handleCardClick}
+      />
 
-      <List data={movies.myMovies} label="Meus filmes" />
+      <List
+        data={movies.myMovies}
+        label="Meus filmes"
+        handleCardClick={handleCardClick}
+      />
     </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -69,3 +85,5 @@ const styles = StyleSheet.create({
     gap: 20,
   },
 });
+
+export default Index;

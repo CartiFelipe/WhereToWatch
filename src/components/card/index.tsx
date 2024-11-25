@@ -1,11 +1,13 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 type Props = { src: string; onClick: () => void };
 const index = ({ src, onClick }: Props) => {
   const imgSrc = `https://image.tmdb.org/t/p/original/${src}`;
   return (
-    <View style={style.container}>
-      <Image src={imgSrc} style={style.img} />
-    </View>
+    <TouchableOpacity onPress={() => onClick()}>
+      <View style={style.container}>
+        <Image src={imgSrc} style={style.img} />
+      </View>
+    </TouchableOpacity>
   );
 };
 export default index;

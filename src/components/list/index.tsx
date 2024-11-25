@@ -4,9 +4,11 @@ import { Card } from "..";
 type Props = {
   data: Array<Movie>;
   label?: string;
+
+  handleCardClick: () => void;
 };
 
-const index = ({ data, label }: Props) => {
+const index = ({ data, label, handleCardClick }: Props) => {
   return (
     <View style={style.container}>
       {label && <Text style={style.label}>{label}</Text>}
@@ -16,7 +18,9 @@ const index = ({ data, label }: Props) => {
           horizontal
           data={data}
           showsHorizontalScrollIndicator={false}
-          renderItem={(item) => <Card src={item.item.poster_path} />}
+          renderItem={(item) => (
+            <Card src={item.item.poster_path} onClick={handleCardClick} />
+          )}
         />
       ) : (
         <Text style={{ textAlign: "center", fontSize: 18 }}>
